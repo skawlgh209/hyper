@@ -6,28 +6,36 @@
     <title>우주 어드벤처 난이도 테스트</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body {
+        body, html {
             font-family: 'Noto Sans KR', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100%;
             background-color: #1a1a2e;
             color: #ffffff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
         }
         .container {
+            display: flex;
+            height: 100%;
+        }
+        .sidebar {
+            width: 30%;
             background-color: #16213e;
             padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.5);
-            max-width: 600px;
-            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .content {
+            width: 70%;
+            padding: 2rem;
+            overflow-y: auto;
         }
         h1 {
-            text-align: center;
-            color: #e94560;
+            font-size: 2.5rem;
             font-weight: 700;
+            margin-bottom: 1rem;
+            color: #e94560;
         }
         .question {
             margin-bottom: 1rem;
@@ -68,15 +76,19 @@
 </head>
 <body>
     <div class="container">
-        <h1>우주 어드벤처 난이도 테스트</h1>
-        <div id="quiz">
-            <div id="question" class="question"></div>
-            <div id="options" class="options"></div>
+        <div class="sidebar">
+            <h1>우주 어드벤처 난이도 테스트</h1>
         </div>
-        <div id="result"></div>
-        <div class="button-container">
-            <button id="restart" onclick="restartQuiz()" style="display: none;">테스트 다시 하기</button>
-            <button id="custom-travel" onclick="goToCustomTravel()" style="display: none;">맞춤형 우주여행 확인</button>
+        <div class="content">
+            <div id="quiz">
+                <div id="question" class="question"></div>
+                <div id="options" class="options"></div>
+            </div>
+            <div id="result"></div>
+            <div class="button-container">
+                <button id="restart" onclick="restartQuiz()" style="display: none;">테스트 다시 하기</button>
+                <button id="custom-travel" onclick="goToCustomTravel()" style="display: none;">맞춤형 우주여행 확인</button>
+            </div>
         </div>
     </div>
 
