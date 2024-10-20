@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>우주 어드벤처 난이도 테스트</title>
+    <title>당신만의 우주 여행을 찾아보세요.</title>
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
     <style>
         body, html {
@@ -118,17 +118,17 @@
 <body>
     <div class="container">
         <div class="sidebar">
-            <h1>당신만의 우주 여행을 찾아보세요!</h1>
+            <h1>당신만의 우주 여행을 찾아보세요.</h1>
         </div>
         <div class="content">
             <div id="quiz">
                 <div id="question" class="question"></div>
                 <div id="options" class="options"></div>
             </div>
-            <div id="result"></div>
+            <div id="result" style="display: none;"></div>
             <div class="button-container">
-                <button id="restart" onclick="restartQuiz()">테스트 다시 하기</button>
-                <button id="custom-travel" onclick="goToCustomTravel()">맞춤형 우주여행 확인</button>
+                <button id="restart" onclick="restartQuiz()" style="display: none;">테스트 다시 하기</button>
+                <button id="custom-travel" onclick="goToCustomTravel()" style="display: none;">맞춤형 우주여행 확인</button>
             </div>
         </div>
     </div>
@@ -306,8 +306,11 @@
             }
             window.location.href = url;
         }
-        // 초기 질문 로드
-        loadQuestion();
+
+         // 페이지 로드 시 초기 상태 설정
+        window.onload = function() {
+            restartQuiz();
+        };
     </script>
 </body>
 </html>
