@@ -3,21 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>당신만의 우주 여행을<br>찾아보세요!</title>
+    <title>우주 어드벤처 난이도 테스트</title>
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
     <style>
         body, html {
-            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            font-family: 'Pretendard', sans-serif;
             margin: 0;
             padding: 0;
             height: 100%;
             background-color: #ffffff;
-            color: #191919;
+            color: #333333;
         }
         .container {
             display: flex;
             height: 100%;
-            box-sizing: border-box;
         }
         .sidebar {
             width: 30%;
@@ -28,27 +27,18 @@
             justify-content: flex-start;
             align-items: flex-start;
             height: 100%;
-            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
-            position: relative;
-        }
-        .sidebar::after {
-            content: '';
-            position: absolute;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            width: 1px;
-            background-color: #e0e0e0;
+            border-right: 1px solid #191919;
         }
         .content {
             width: 70%;
             padding: 2rem;
             overflow-y: auto;
             height: 100%;
-            padding-top: calc(15vh + 2rem);
+            display: flex;
+            flex-direction: column;
         }
         h1 {
-            font-size: 2.8rem;
+            font-size: 2.5rem;
             font-weight: 700;
             margin-top: 15vh;
             margin-bottom: 1rem;
@@ -56,45 +46,51 @@
             line-height: 1.2;
         }
         .question {
-            background-color: #ffffff;
-            padding: 1.5rem;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            margin-bottom: 1.5rem;
-            font-size: 1.8rem;
-            font-weight: 700;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e0e0e0;
         }
         .options {
             display: flex;
             flex-direction: column;
+            flex-grow: 1;
+            justify-content: space-between;
         }
-        button {
-            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
-            background-color: #1a1a2e;
-            color: #ffffff;
-            border: none;
-            padding: 15px 20px;
-            margin: 8px 0;
+        .option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #e0e0e0;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-size: 1.1rem;
-            border-radius: 25px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-            text-align: left;
         }
-        button:hover {
-            background-color: #e94560;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        .option:hover {
+            background-color: #f5f5f5;
+        }
+        .option:hover .arrow {
+            opacity: 1;
+        }
+        .option-text {
+            font-size: 1.1rem;
+        }
+        .arrow {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .arrow::after {
+            content: '→';
+            font-size: 1.2rem;
         }
         #result {
             text-align: center;
             font-size: 1.2rem;
             margin-top: 2rem;
             padding: 1.5rem;
-            background-color: #ffffff;
+            background-color: #f5f5f5;
             border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
         .button-container {
             display: flex;
@@ -104,38 +100,22 @@
         .button-container button {
             flex: 1;
             margin: 0 10px;
+            padding: 10px;
+            background-color: #191919;
+            color: #ffffff;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
         }
-        @media (max-width: 768px) {
-            .container {
-                flex-direction: column;
-            }
-            .sidebar, .content {
-                width: 100%;
-                height: auto;
-            }
-            .sidebar {
-                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            }
-            .sidebar::after {
-                width: 100%;
-                height: 1px;
-                left: 0;
-                bottom: 0;
-                top: auto;
-            }
-            .content {
-                padding-top: 2rem;
-            }
-            h1 {
-                margin-top: 0;
-            }
+        .button-container button:hover {
+            background-color: #333333;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="sidebar">
-            <h1>당신만의 우주 여행을<br>찾아보세요!</h1>
+            <h1>당신만의 우주 여행을 찾아보세요!</h1>
         </div>
         <div class="content">
             <div id="quiz">
@@ -144,8 +124,8 @@
             </div>
             <div id="result"></div>
             <div class="button-container">
-                <button id="restart" onclick="restartQuiz()" style="display: none;">테스트 다시 하기</button>
-                <button id="custom-travel" onclick="goToCustomTravel()" style="display: none;">맞춤형 우주여행 확인</button>
+                <button onclick="restartQuiz()">테스트 다시 하기</button>
+                <button onclick="goToCustomTravel()">맞춤형 우주여행 확인</button>
             </div>
         </div>
     </div>
@@ -237,10 +217,14 @@
             optionsElement.innerHTML = "";
 
             for (let i = 0; i < currentQuiz.options.length; i++) {
-                const button = document.createElement("button");
-                button.textContent = currentQuiz.options[i].text;
-                button.onclick = () => selectOption(currentQuiz.options[i].score);
-                optionsElement.appendChild(button);
+                const optionDiv = document.createElement("div");
+                optionDiv.className = "option";
+                optionDiv.innerHTML = `
+                    <span class="option-text">${currentQuiz.options[i].text}</span>
+                    <span class="arrow"></span>
+                `;
+                optionDiv.onclick = () => selectOption(currentQuiz.options[i].score);
+                optionsElement.appendChild(optionDiv);
             }
         }
 
