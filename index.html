@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>우주 어드벤처 난이도 테스트</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
     <style>
         body, html {
-            font-family: 'Noto Sans KR', sans-serif;
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
             margin: 0;
             padding: 0;
             height: 100%;
@@ -17,6 +17,8 @@
         .container {
             display: flex;
             height: 100%;
+            padding-top: 15vh; /* 뷰포트 높이의 15%만큼 상단 여백 추가 */
+            box-sizing: border-box; /* 패딩을 높이에 포함 */
         }
         .sidebar {
             width: 30%;
@@ -24,16 +26,20 @@
             padding: 2rem;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start; /* 상단 정렬로 변경 */
+            align-items: flex-start; /* 왼쪽 정렬 */
+            height: 85vh; /* 컨테이너 높이에서 상단 여백을 뺀 높이 */
         }
         .content {
             width: 70%;
             padding: 2rem;
             overflow-y: auto;
+            height: 85vh; /* 컨테이너 높이에서 상단 여백을 뺀 높이 */
         }
         h1 {
             font-size: 2.5rem;
             font-weight: 700;
+            margin-top: 0; /* 상단 마진 제거 */
             margin-bottom: 1rem;
             color: #1a1a2e;
         }
@@ -46,7 +52,7 @@
             flex-direction: column;
         }
         button {
-            font-family: 'Noto Sans KR', sans-serif;
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
             background-color: #1a1a2e;
             color: #ffffff;
             border: none;
