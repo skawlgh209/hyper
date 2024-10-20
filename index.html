@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>우주 어드벤처 난이도 테스트</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1a1a2e;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #16213e;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            max-width: 600px;
+            width: 100%;
+        }
+        h1 {
+            text-align: center;
+            color: #e94560;
+        }
+        .question {
+            margin-bottom: 1rem;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+        }
+        button {
+            background-color: #0f3460;
+            color: #ffffff;
+            border: none;
+            padding: 10px;
+            margin: 5px 0;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #e94560;
+        }
+        #result {
+            text-align: center;
+            font-size: 1.2rem;
+            margin-top: 1rem;
+        }
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+        }
+        .button-container button {
+            flex: 1;
+            margin: 0 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>우주 어드벤처 난이도 테스트</h1>
+        <div id="quiz">
+            <div id="question" class="question"></div>
+            <div id="options" class="options"></div>
+        </div>
+        <div id="result"></div>
+        <div class="button-container">
+            <button id="restart" onclick="restartQuiz()" style="display: none;">테스트 다시 하기</button>
+            <button id="custom-travel" onclick="goToCustomTravel()" style="display: none;">맞춤형 우주여행 확인</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "여행 중 가장 좋아하는 경험은 무엇인가요?",
+                options: [
+                    { text: "호텔에서 편안히 쉬기", score: 1 },
+                    { text: "유명 관광지 방문", score: 2 },
+                    { text: "자연 속에서 산책", score: 3 },
+                    { text: "산을 오르거나 트레킹", score: 4 },
+                    { text: "험준한 지역에서 캠핑", score: 5 }
+                ]
+            },
+            {
+                question: "새로운 활동을 시도할 때의 기분은 어떠신가요?",
+                options: [
+                    { text: "시도하지 않는다", score: 1 },
+                    { text: "조금 불안하다", score: 2 },
+                    { text: "궁금하고 흥미롭다", score: 3 },
+                    { text: "매우 신난다", score: 4 },
+                    { text: "도전적인 활동을 찾는다", score: 5 }
+                ]
+            },
+            {
+                question: "우주 여행 중 가장 도전해보고 싶은 활동은 무엇인가요?",
+                options: [
+                    { text: "우주선 내부에서 지구 바라보기", score: 1 },
+                    { text: "우주선 내 무중력 상태 체험", score: 2 },
+                    { text: "우주선 밖 우주유영 시뮬레이션", score: 3 },
+                    { text: "실제 우주유영", score: 4 },
+                    { text: "다른 행성 탐사", score: 5 }
+                ]
+            },
+            {
+                question: "평소 얼마나 자주 야외 활동을 하나요?",
+                options: [
+                    { text: "거의 하지 않는다", score: 1 },
+                    { text: "가끔 한다", score: 2 },
+                    { text: "자주 한다", score: 3 },
+                    { text: "매우 자주 한다", score: 4 },
+                    { text: "주말마다 한다", score: 5 }
+                ]
+            },
+            {
+                question: "주말에 가장 선호하는 활동은 무엇인가요?",
+                options: [
+                    { text: "집에서 쉬기", score: 1 },
+                    { text: "도심에서 가벼운 산책", score: 2 },
+                    { text: "근처 자연 공원 탐방", score: 3 },
+                    { text: "국립공원에서 하이킹", score: 4 },
+                    { text: "극한 스포츠 체험", score: 5 }
+                ]
+            },
+            {
+                question: "자신의 체력 수준을 어떻게 평가하시나요?",
+                options: [
+                    { text: "낮음", score: 1 },
+                    { text: "보통 이하", score: 2 },
+                    { text: "보통", score: 3 },
+                    { text: "보통 이상", score: 4 },
+                    { text: "매우 높음", score: 5 }
+                ]
+            },
+            {
+                question: "우주 여행 중 경험해보고 싶은 활동은 무엇인가요?",
+                options: [
+                    { text: "우주선 내부에서의 경험", score: 1 },
+                    { text: "지구 및 우주 경치 감상", score: 2 },
+                    { text: "천문 관측 활동", score: 3 },
+                    { text: "행성 토지 탐구 활동", score: 4 },
+                    { text: "식물 재배 실험", score: 5 }
+                ]
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let adventureLevel = "";
+
+        function loadQuestion() {
+            const questionElement = document.getElementById("question");
+            const optionsElement = document.getElementById("options");
+            const currentQuiz = questions[currentQuestion];
+
+            questionElement.textContent = currentQuiz.question;
+            optionsElement.innerHTML = "";
+
+            for (let i = 0; i < currentQuiz.options.length; i++) {
+                const button = document.createElement("button");
+                button.textContent = currentQuiz.options[i].text;
+                button.onclick = () => selectOption(currentQuiz.options[i].score);
+                optionsElement.appendChild(button);
+            }
+        }
+
+        function selectOption(optionScore) {
+            score += optionScore;
+            currentQuestion++;
+
+            if (currentQuestion < questions.length) {
+                loadQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            const quizElement = document.getElementById("quiz");
+            const resultElement = document.getElementById("result");
+            const restartButton = document.getElementById("restart");
+            const customTravelButton = document.getElementById("custom-travel");
+
+            quizElement.style.display = "none";
+            resultElement.style.display = "block";
+            restartButton.style.display = "inline-block";
+            customTravelButton.style.display = "inline-block";
+
+            if (score >= 7 && score <= 14) adventureLevel = "1단계 (초보)";
+            else if (score >= 15 && score <= 21) adventureLevel = "2단계 (초중급)";
+            else if (score >= 22 && score <= 28) adventureLevel = "3단계 (중급)";
+            else if (score >= 29 && score <= 35) adventureLevel = "4단계 (중상급)";
+            else adventureLevel = "5단계 (전문가)";
+
+            resultElement.innerHTML = `
+                <h2>테스트 결과</h2>
+                <p>당신의 우주 어드벤처 난이도는:</p>
+                <p><strong>${adventureLevel}</strong></p>
+            `;
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            const quizElement = document.getElementById("quiz");
+            const resultElement = document.getElementById("result");
+            const restartButton = document.getElementById("restart");
+            const customTravelButton = document.getElementById("custom-travel");
+
+            quizElement.style.display = "block";
+            resultElement.style.display = "none";
+            restartButton.style.display = "none";
+            customTravelButton.style.display = "none";
+
+            loadQuestion();
+        }
+
+        function goToCustomTravel() {
+            let url;
+            switch(adventureLevel) {
+                case "1단계 (초보)":
+                    url = "https://www.naver.com/beginner";
+                    break;
+                case "2단계 (초중급)":
+                    url = "https://www.naver.com/intermediate";
+                    break;
+                case "3단계 (중급)":
+                    url = "https://www.naver.com/advanced";
+                    break;
+                case "4단계 (중상급)":
+                    url = "https://www.naver.com/expert";
+                    break;
+                case "5단계 (전문가)":
+                    url = "https://www.naver.com/master";
+                    break;
+                default:
+                    url = "https://www.naver.com/";
+            }
+            window.location.href = url;
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>
