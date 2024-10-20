@@ -17,35 +17,52 @@
         .container {
             display: flex;
             height: 100%;
-            padding-top: 15vh; /* 뷰포트 높이의 15%만큼 상단 여백 추가 */
-            box-sizing: border-box; /* 패딩을 높이에 포함 */
+            box-sizing: border-box;
         }
         .sidebar {
             width: 30%;
-            background-color: #f0f0f0;
+            background-color: #ffffff;
             padding: 2rem;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start; /* 상단 정렬로 변경 */
-            align-items: flex-start; /* 왼쪽 정렬 */
-            height: 85vh; /* 컨테이너 높이에서 상단 여백을 뺀 높이 */
+            justify-content: flex-start;
+            align-items: flex-start;
+            height: 100%;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        .sidebar::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background-color: #e0e0e0;
         }
         .content {
             width: 70%;
             padding: 2rem;
             overflow-y: auto;
-            height: 85vh; /* 컨테이너 높이에서 상단 여백을 뺀 높이 */
+            height: 100%;
+            padding-top: calc(15vh + 2rem);
         }
         h1 {
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             font-weight: 700;
-            margin-top: 0; /* 상단 마진 제거 */
+            margin-top: 15vh;
             margin-bottom: 1rem;
             color: #1a1a2e;
+            line-height: 1.2;
         }
         .question {
-            margin-bottom: 1rem;
-            color: #333333;
+            background-color: #ffffff;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+            font-weight: 700;
         }
         .options {
             display: flex;
@@ -56,29 +73,62 @@
             background-color: #1a1a2e;
             color: #ffffff;
             border: none;
-            padding: 10px;
-            margin: 5px 0;
+            padding: 15px 20px;
+            margin: 8px 0;
             cursor: pointer;
-            transition: background-color 0.3s;
-            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            border-radius: 25px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            text-align: left;
         }
         button:hover {
             background-color: #e94560;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
         }
         #result {
             text-align: center;
             font-size: 1.2rem;
-            margin-top: 1rem;
-            color: #333333;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
         .button-container {
             display: flex;
             justify-content: space-between;
-            margin-top: 1rem;
+            margin-top: 1.5rem;
         }
         .button-container button {
             flex: 1;
-            margin: 0 5px;
+            margin: 0 10px;
+        }
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .sidebar, .content {
+                width: 100%;
+                height: auto;
+            }
+            .sidebar {
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            }
+            .sidebar::after {
+                width: 100%;
+                height: 1px;
+                left: 0;
+                bottom: 0;
+                top: auto;
+            }
+            .content {
+                padding-top: 2rem;
+            }
+            h1 {
+                margin-top: 0;
+            }
         }
     </style>
 </head>
