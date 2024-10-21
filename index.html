@@ -244,28 +244,37 @@
         }
 
         function showResult() {
-            const quizElement = document.getElementById("quiz");
-            const resultElement = document.getElementById("result");
-            const restartButton = document.getElementById("restart");
-            const customTravelButton = document.getElementById("custom-travel");
+    const quizElement = document.getElementById("quiz");
+    const resultElement = document.getElementById("result");
+    const restartButton = document.getElementById("restart");
+    const customTravelButton = document.getElementById("custom-travel");
 
-            quizElement.style.display = "none";
-            resultElement.style.display = "block";
-            restartButton.style.display = "inline-block";
-            customTravelButton.style.display = "inline-block";
+    quizElement.style.display = "none";
+    resultElement.style.display = "block";
+    restartButton.style.display = "inline-block";
+    customTravelButton.style.display = "inline-block";
 
-            if (score >= 7 && score <= 14) adventureLevel = "1단계 (초보)";
-            else if (score >= 15 && score <= 21) adventureLevel = "2단계 (초중급)";
-            else if (score >= 22 && score <= 28) adventureLevel = "3단계 (중급)";
-            else if (score >= 29 && score <= 35) adventureLevel = "4단계 (중상급)";
-            else adventureLevel = "5단계 (전문가)";
+    if (score >= 7 && score <= 14) adventureLevel = "1단계 (초보)";
+    else if (score >= 15 && score <= 21) adventureLevel = "2단계 (초중급)";
+    else if (score >= 22 && score <= 28) adventureLevel = "3단계 (중급)";
+    else if (score >= 29 && score <= 35) adventureLevel = "4단계 (중상급)";
+    else adventureLevel = "5단계 (전문가)";
 
-            resultElement.innerHTML = `
-                <h2>테스트 결과</h2>
-                <p>당신의 우주 어드벤처 난이도는:</p>
-                <p><strong>${adventureLevel}</strong></p>
-            `;
-        }
+    resultElement.innerHTML = `
+        <h2>테스트 결과</h2>
+        <p>당신의 우주 어드벤처 난이도는:</p>
+        <p><strong>${adventureLevel}</strong></p>
+        <p>3초 후 맞춤형 우주여행 페이지로 이동합니다...</p>
+    `;
+
+    // 버튼의 onclick 이벤트를 여기서 설정
+    customTravelButton.onclick = goToCustomTravel;
+
+    // 3초 후 맞춤형 우주여행 페이지로 자동 이동
+    setTimeout(() => {
+        goToCustomTravel();
+    }, 3000);
+}
 
         function restartQuiz() {
             currentQuestion = 0;
@@ -284,28 +293,28 @@
         }
 
         function goToCustomTravel() {
-            let url;
-            switch(adventureLevel) {
-                case "1단계 (초보)":
-                    url = "https://hyper-2107.cargo.site/";
-                    break;
-                case "2단계 (초중급)":
-                    url = "https://hyper-2107.cargo.site/";
-                    break;
-                case "3단계 (중급)":
-                    url = "https://hyper-2107.cargo.site/";
-                    break;
-                case "4단계 (중상급)":
-                    url = "https://hyper-2107.cargo.site/";
-                    break;
-                case "5단계 (전문가)":
-                    url = "https://hyper-2107.cargo.site/";
-                    break;
-                default:
-                    url = "https://hyper-2107.cargo.site/";
-            }
-            window.location.href = url;
-        }
+    let url;
+    switch(adventureLevel) {
+        case "1단계 (초보)":
+            url = "https://example.com/space-travel/beginner";
+            break;
+        case "2단계 (초중급)":
+            url = "https://example.com/space-travel/intermediate-beginner";
+            break;
+        case "3단계 (중급)":
+            url = "https://example.com/space-travel/intermediate";
+            break;
+        case "4단계 (중상급)":
+            url = "https://example.com/space-travel/advanced-intermediate";
+            break;
+        case "5단계 (전문가)":
+            url = "https://example.com/space-travel/expert";
+            break;
+        default:
+            url = "https://example.com/space-travel";
+    }
+    window.location.href = url;
+}
 
          // 페이지 로드 시 초기 상태 설정
         window.onload = function() {
