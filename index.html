@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>당신만의 우주 여행을 찾아보세요.</title>
+    <title>우주 어드벤처 난이도 테스트</title>
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
     <style>
         body, html {
@@ -98,24 +98,6 @@
             background-color: #1a1a1a;
             border-radius: 10px;
         }
-        .button-container {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 1.5rem;
-        }
-        .button-container button {
-            flex: 1;
-            margin: 0 10px;
-            padding: 10px 20px;
-            background-color: #ffffff;
-            color: #000000;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        .button-container button:hover {
-            background-color: #cccccc;
-        }
         #loading-screen {
             position: fixed;
             top: 0;
@@ -168,10 +150,6 @@
                 <div id="options" class="options"></div>
             </div>
             <div id="result" style="display: none;"></div>
-            <div class="button-container">
-                <button id="restart" onclick="restartQuiz()" style="display: none;">테스트 다시 하기</button>
-                <button id="custom-travel" onclick="goToCustomTravel()" style="display: none;">맞춤형 우주여행 확인</button>
-            </div>
         </div>
     </div>
     <div id="loading-screen" style="display: none;">
@@ -257,105 +235,85 @@
             }
         ];
 
-
         let currentQuestion = 0;
         let score = 0;
         let adventureLevel = "";
 
         function loadQuestion() {
-    const questionElement = document.getElementById("question");
-    const optionsElement = document.getElementById("options");
-    const currentQuiz = questions[currentQuestion];
+            const questionElement = document.getElementById("question");
+            const optionsElement = document.getElementById("options");
+            const currentQuiz = questions[currentQuestion];
 
-    questionElement.textContent = currentQuiz.question;
-    optionsElement.innerHTML = "";
+            questionElement.textContent = currentQuiz.question;
+            optionsElement.innerHTML = "";
 
-    for (let i = 0; i < currentQuiz.options.length; i++) {
-        const optionDiv = document.createElement("div");
-        optionDiv.className = "option";
-        optionDiv.innerHTML = `
-            <span>${currentQuiz.options[i].text}</span>
-            <span class="arrow"></span>
-        `;
-        optionDiv.onclick = () => {
-            // 이전에 선택된 옵션의 클래스 제거
-            const selectedOption = optionsElement.querySelector('.selected');
-            if (selectedOption) {
-                selectedOption.classList.remove('selected');
+            for (let i = 0; i < currentQuiz.options.length; i++) {
+                const optionDiv = document.createElement("div");
+                optionDiv.className = "option";
+                optionDiv.innerHTML = `
+                    <span class="option-text">${currentQuiz.options[i].text}</span>
+                    <span class="arrow"></span>
+                `;
+                optionDiv.onclick = () => selectOption(currentQuiz.options[i].score);
+                optionsElement.appendChild(optionDiv);
             }
-            // 현재 선택한 옵션에 클래스 추가
-            optionDiv.classList.add('selected');
-            selectOption(currentQuiz.options[i].score);
-        };
-        optionsElement.appendChild(optionDiv);
-    }
-}
+        }
+
+        function selectOption(optionScore) {
+            score += optionScore;
+            currentQuestion++;
+
+            if (currentQuestion < questions.length) {
+                loadQuestion();
+            } else {
+                showResult();
+            }
+        }
 
         function showResult() {
-    const quizElement = document.getElementById("quiz");
-    const resultElement = document.getElementById("result");
-    const loadingScreen = document.getElementById("loading-screen");
-
-    quizElement.style.display = "none";
-    resultElement.style.display = "none";
-    loadingScreen.style.display = "flex";
-
-    if (score >= 7 && score <= 14) adventureLevel = "1단계 (초보)";
-    else if (score >= 15 && score <= 21) adventureLevel = "2단계 (초중급)";
-    else if (score >= 22 && score <= 28) adventureLevel = "3단계 (중급)";
-    else if (score >= 29 && score <= 35) adventureLevel = "4단계 (중상급)";
-    else adventureLevel = "5단계 (전문가)";
-
-    // 3초 후 맞춤형 우주여행 페이지로 자동 이동
-    setTimeout(() => {
-        goToCustomTravel();
-    }, 3000);
-}
-
-        function restartQuiz() {
-            currentQuestion = 0;
-            score = 0;
             const quizElement = document.getElementById("quiz");
-            const resultElement = document.getElementById("result");
-            const restartButton = document.getElementById("restart");
-            const customTravelButton = document.getElementById("custom-travel");
+            const loadingScreen = document.getElementById("loading-screen");
 
-            quizElement.style.display = "block";
-            resultElement.style.display = "none";
-            restartButton.style.display = "none";
-            customTravelButton.style.display = "none";
+            quizElement.style.display = "none";
+            loadingScreen.style.display = "flex";
 
-            loadQuestion();
+            if (score >= 7 && score <= 14) adventureLevel = "1단계 (초보)";
+            else if (score >= 15 && score <= 21) adventureLevel = "2단계 (초중급)";
+            else if (score >= 22 && score <= 28) adventureLevel = "3단계 (중급)";
+            else if (score >= 29 && score <= 35) adventureLevel = "4단계 (중상급)";
+            else adventureLevel = "5단계 (전문가)";
+
+            setTimeout(() => {
+                goToCustomTravel();
+            }, 3000);
         }
 
         function goToCustomTravel() {
-    let url;
-    switch(adventureLevel) {
-        case "1단계 (초보)":
-            url = "https://hyper-2107.cargo.site/1%EB%8B%A8%EA%B3%84-beginner-1";
-            break;
-        case "2단계 (초중급)":
-            url = "https://hyper-2107.cargo.site/2%EB%8B%A8%EA%B3%84-curiouser-1";
-            break;
-        case "3단계 (중급)":
-            url = "https://hyper-2107.cargo.site/3%EB%8B%A8%EA%B3%84-seeker-1";
-            break;
-        case "4단계 (중상급)":
-            url = "https://hyper-2107.cargo.site/4%EB%8B%A8%EA%B3%84-pioneer-1";
-            break;
-        case "5단계 (전문가)":
-            url = "https://hyper-2107.cargo.site/5%EB%8B%A8%EA%B3%84-adventurer";
-            break;
-        default:
-            url = "https://hyper-2107.cargo.site/";
-    }
-    window.location.href = url;
-}
+            let url;
+            switch(adventureLevel) {
+                case "1단계 (초보)":
+                    url = "https://hyper-2107.cargo.site/1%EB%8B%A8%EA%B3%84-beginner-1";
+                    break;
+                case "2단계 (초중급)":
+                    url = "https://hyper-2107.cargo.site/2%EB%8B%A8%EA%B3%84-curiouser-1";
+                    break;
+                case "3단계 (중급)":
+                    url = "https://hyper-2107.cargo.site/3%EB%8B%A8%EA%B3%84-seeker-1";
+                    break;
+                case "4단계 (중상급)":
+                    url = "https://hyper-2107.cargo.site/4%EB%8B%A8%EA%B3%84-pioneer-1";
+                    break;
+                case "5단계 (전문가)":
+                    url = "https://hyper-2107.cargo.site/5%EB%8B%A8%EA%B3%84-adventurer";
+                    break;
+                default:
+                    url = "https://hyper-2107.cargo.site/";
+            }
+            window.location.href = url;
+        }
 
-         // 페이지 로드 시 초기 상태 설정
-        window.onload = function() {
-            restartQuiz();
-        };
+        // 초기 질문 로드
+        loadQuestion();
     </script>
 </body>
 </html>
